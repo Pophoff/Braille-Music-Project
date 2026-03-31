@@ -45,9 +45,9 @@ def process_xml_file(filepath):
     elif window.frame.get_optionmenu_var() == "Generic Braille File (brf)":
         convert_to_brf(filepath)   # Placeholder for actual conversion logic to BRF format
         text = ".brf"
-    elif window.frame.get_optionmenu_var() == "CAD Braille File ([Insert File Type])":
-        convert_to_cad(filepath)   # Placeholder for actual conversion logic to CAD Braille File format
-        text = ".musicxml" # Placeholder for actual file extension of CAD Braille File
+    elif window.frame.get_optionmenu_var() == "CAD Braille File (stl)":
+        convert_to_stl(filepath)   # Placeholder for actual conversion logic to CAD Braille File format
+        text = ".stl" # Placeholder for actual file extension of CAD Braille File
     try:
         # Parse the XML file
         tree = ET.parse(filepath)
@@ -73,9 +73,9 @@ def convert_to_brf(filepath): #TODO: Implement actual conversion logic to BRF fo
     # Placeholder for conversion logic to BRF format
     window.frame2.update_textbox("Converting to Generic Braille File (brf) format...\n")  # Add conversion status to textbox
 
-def convert_to_cad(filepath): #TODO: Implement actual conversion logic to CAD Braille File format
+def convert_to_stl(filepath): #TODO: Implement actual conversion logic to CAD Braille File format
     # Placeholder for conversion logic to CAD Braille File format
-    window.frame2.update_textbox("Converting to CAD Braille File format...\n")  # Add conversion status to textbox
+    window.frame2.update_textbox("Converting to CAD Braille File (stl) format...\n")  # Add conversion status to textbox
 
 def optionmenu_callback(choice):
     if window.frame.get_optionmenu_var() != "Choose Output File Type":
@@ -120,9 +120,9 @@ class MyFrame1(ctk.CTkFrame):
             image_label.grid(row=1, column=1, padx=10, pady=10)
 
         self.optionmenu_var = tk.StringVar(value="None")
-        self.optionmenu = ctk.CTkOptionMenu(self, values=["Generic Braille File (brf)", "CAD Braille File [Insert File Type]"],
+        self.optionmenu = ctk.CTkOptionMenu(self, values=["Generic Braille File (brf)", "CAD Braille File (stl)"],
                                          command=optionmenu_callback, variable=self.optionmenu_var, width=200)
-        self.optionmenu.grid(row=2, column=0, padx=10, pady=20,)
+        self.optionmenu.grid(row=2, column=0, padx=20, pady=20,)
         self.optionmenu.set("Choose Output File Type")
     
     def get_optionmenu_var(self):
