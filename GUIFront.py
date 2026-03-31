@@ -4,6 +4,7 @@ import tkinter as tk
 import tkinter.filedialog as filedialog
 import xml.etree.ElementTree as ET
 import os
+from map import parseFile, makeStl
 from PIL import Image, ImageTk
 
 def on_button_click():
@@ -39,29 +40,28 @@ def open_xml_file_dialog():
 def process_xml_file(filepath):
     # This is where you would put your XML processing logic
     text = ".musicxml"
+    song = parseFile(filepath)
     if window.frame.get_optionmenu_var() == "Choose Output File Type":
         window.frame2.update_textbox("Please select an output file type from the dropdown menu.")
         return
     elif window.frame.get_optionmenu_var() == "Generic Braille File (brf)":
-        convert_to_brf(filepath)   # Placeholder for actual conversion logic to BRF format
-        text = ".brf"
+        convert_to_brf(filepath, song)   # Placeholder for actual conversion logic to BRF format
     elif window.frame.get_optionmenu_var() == "CAD Braille File (stl)":
-        convert_to_stl(filepath)   # Placeholder for actual conversion logic to CAD Braille File format
-        text = ".stl" # Placeholder for actual file extension of CAD Braille File
+        convert_to_stl(filepath, song)   # Placeholder for actual conversion logic to CAD Braille File format
     try:
         # Parse the XML file
-        tree = ET.parse(filepath)
-        root = tree.getroot()
+        #tree = ET.parse(filepath)
+        #root = tree.getroot()
 
-        new_element = ET.Element("new_data")
-        new_element.text = "This data was added via the GUI"
-        root.append(new_element)
+        #new_element = ET.Element("new_data")
+        #new_element.text = "This data was added via the GUI"
+        #root.append(new_element)
 
         # Save the modified XML to a new file (or overwrite the old one)
-        new_filepath = filepath.replace(".musicxml", text)
-        tree.write(new_filepath)
-        window.frame2.add_textbox_content(f"Saved as: {new_filepath.split('/')[-1]}")  # Update textbox with new filename
-        print(f"Modified XML file saved as: {new_filepath}")
+        #new_filepath = filepath.replace(".musicxml", text)
+        #tree.write(new_filepath)
+        window.frame2.add_textbox_content(f"Saved as: {filepath.split('/')[-1]}")  # Update textbox with new filename
+        print(f"Modified XML file saved as: {filepath}")
 
         # Catch Exceptions
     except ET.ParseError as e:
@@ -69,13 +69,18 @@ def process_xml_file(filepath):
     except Exception as e:
         print(f"An unexpected error occurred: {e}")
 
-def convert_to_brf(filepath): #TODO: Implement actual conversion logic to BRF format
-    # Placeholder for conversion logic to BRF format
+def convert_to_brf(filepath, song): #Conversion logic to BRF format
     window.frame2.update_textbox("Converting to Generic Braille File (brf) format...\n")  # Add conversion status to textbox
+    new_filepath = filepath.replace(".musicxml", ".brf")
+    song.write(new_filepath)
 
-def convert_to_stl(filepath): #TODO: Implement actual conversion logic to CAD Braille File format
-    # Placeholder for conversion logic to CAD Braille File format
+
+def convert_to_stl(filepath, song): #Conversion logic to CAD Braille File format
     window.frame2.update_textbox("Converting to CAD Braille File (stl) format...\n")  # Add conversion status to textbox
+    new_filepath = filepath.replace(".musicxml", ".brf")
+    song.write(new_filepath)
+
+    makeStl(new_filepath, new_filepath.replace(".brf", ".stl"))
 
 def optionmenu_callback(choice):
     if window.frame.get_optionmenu_var() != "Choose Output File Type":
@@ -181,6 +186,8 @@ class App(ctk.CTk):
         self.frame2.configure(border_width=2, border_color="red")
 
 
+
+
 # Create the main application window
 window = App()
 window.title("XML File Processor")
@@ -188,3 +195,4 @@ window.geometry("480x470")
 
 window.protocol("WM_DELETE_WINDOW", on_closing)
 window.mainloop()
+
