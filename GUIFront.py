@@ -60,7 +60,6 @@ def process_xml_file(filepath):
         # Save the modified XML to a new file (or overwrite the old one)
         #new_filepath = filepath.replace(".musicxml", text)
         #tree.write(new_filepath)
-        window.frame2.add_textbox_content(f"Saved as: {filepath.split('/')[-1]}")  # Update textbox with new filename
         print(f"Modified XML file saved as: {filepath}")
 
         # Catch Exceptions
@@ -74,13 +73,20 @@ def convert_to_brf(filepath, song): #Conversion logic to BRF format
     new_filepath = filepath.replace(".musicxml", ".brf")
     song.write(new_filepath)
 
+    window.frame2.add_textbox_content(f"Saved as: {new_filepath}")  # Update textbox with new filename
+
+
 
 def convert_to_stl(filepath, song): #Conversion logic to CAD Braille File format
     window.frame2.update_textbox("Converting to CAD Braille File (stl) format...\n")  # Add conversion status to textbox
-    new_filepath = filepath.replace(".musicxml", ".brf")
-    song.write(new_filepath)
+    temp_filepath = filepath.replace(".musicxml", ".brf")
+    song.write(temp_filepath)
 
-    makeStl(new_filepath, new_filepath.replace(".brf", ".stl"))
+    new_filepath = filepath.replace(".musicxml", ".stl")
+    makeStl(temp_filepath, new_filepath)
+
+    window.frame2.add_textbox_content(f"Saved as: {new_filepath}")  # Update textbox with new filename
+
 
 def optionmenu_callback(choice):
     if window.frame.get_optionmenu_var() != "Choose Output File Type":

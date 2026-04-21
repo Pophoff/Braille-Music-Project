@@ -493,6 +493,7 @@ def makeStl(file: str, stl: str):
         dh = 0.6
         r = 0.6
         pad = 8
+        scale = 740 # Scale factor because sheet was around 185m wide instead of the .25m that we needed.
         dotValues = [(-a, -a/2), (0, -a/2), (a, -a/2),
                      (-a, a/2), (0, a/2), (a, a/2)]
         points = []
@@ -517,7 +518,7 @@ def makeStl(file: str, stl: str):
                 width = curWidth
 
         plate = (cq.Workplane("XY")
-                 .box(height * 2 * a + (height - 1) * (e - 2 * a) + dia + pad, width * a + (width - 1) * (l - a) + dia + pad, th)
+                 .box((height * 2 * a + (height - 1) * (e - 2 * a) + dia + pad), (width * a + (width - 1) * (l - a) + dia + pad), th)
                  .edges("|Z")
                  .fillet(r)
                  )
@@ -529,11 +530,13 @@ def makeStl(file: str, stl: str):
                   .split(True, False)
                   .union(plate)
                   )
+        
+        result = result.val().scale(1/scale)
 
         cq.exporters.export(result, stl)
 
 
-song = parseFile("lyrics.musicxml")
-song.write("song.brf")
+#song = parseFile("lyrics.musicxml")
+#song.write("song.brf")
 
-makeStl("song.brf", "res.stl")
+#makeStl("song.brf", "res.stl")
