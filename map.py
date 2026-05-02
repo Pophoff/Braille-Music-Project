@@ -493,7 +493,7 @@ def makeStl(file: str, stl: str):
         dh = 0.6
         r = 0.6
         pad = 8
-        scale = 740 # Scale factor because sheet was around 185m wide instead of the .25m that we needed.
+        scale = 1000 # Scale factor because sheet was in meters, not mm.
         dotValues = [(-a, -a/2), (0, -a/2), (a, -a/2),
                      (-a, a/2), (0, a/2), (a, a/2)]
         points = []
