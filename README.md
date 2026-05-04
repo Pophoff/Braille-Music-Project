@@ -3,6 +3,16 @@
 _Paul Ophoff and Nathanael Wilcox_
 
 # Project that turns sheet music file into printable braille music file
+Currently to run main.py you may need to do a few things
+
+- pip install cadquery
+- pip install typing_extensions
+- pip install customtkinter
+- pip install tkinter
+- pip install pillow
+- pip install casadi
+
+This will not work on Python versions newer than 3.12 because of a library cadquery uses
 
 ## Notice!!!
 This Project is not Certified by any Braille Authority, including the Braille Authority of North America (BANA) or by the National Federation of the Blind (NFB).
